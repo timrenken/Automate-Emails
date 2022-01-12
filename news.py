@@ -23,6 +23,21 @@ class NewsFeed:
         self.number_of_articles = number_of_articles
 
     def get(self):
+        url = self._build_url()
+        articles = self._get_articles(url)
+        email_body = ''
+        for article in articles:
+            email_body = email_body + f"{article['title']}\n{article['url']}\n\n"
+
+        return email_body
+
+    def _get_articles(self, url):
+        res = requests.get(url)
+        content = res.json()
+        articles = content['articles']
+        return articles
+
+    def _build_url(self):
         url = f'{self.base_url}?' \
               f'category={self.category}&' \
               'country=us&' \
@@ -32,15 +47,7 @@ class NewsFeed:
               'sortBy=popularity&' \
               f'pageSize={self.number_of_articles}&' \
               f'apiKey={self.API_KEY}'
-        res = requests.get(url)
-        content = res.json()
-        articles = content['articles']
-
-        email_body = ''
-        for article in articles:
-            email_body = email_body + f"{article['title']}\n{article['url']}\n\n"
-
-        return email_body
+        return url
 
 
 if __name__ == "__main__":

@@ -13,7 +13,8 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
 email = yagmail.SMTP(user=EMAIL_ADDRESS, password=EMAIL_PASSWORD)
 
-for index, row in df.iterrows():
+
+def send_email():
     news_feed = NewsFeed(category=row['category'],
                          number_of_articles=row['number_of_articles'])
     email.send(to=row['email'],
@@ -23,3 +24,7 @@ for index, row in df.iterrows():
                         f"{news_feed.get()}"
                         "Best Regards,\n"
                         "Tim Renken")
+
+
+for index, row in df.iterrows():
+    send_email()
