@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# people.csv, so you don't accidentally share your email list
+people.csv
